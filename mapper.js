@@ -1,7 +1,7 @@
 var _     = require('lodash')
 var clone = require('clone')
 var scale = require('cccf-scale')
-var utils = require('./scheduler-utils')
+var utils = require('./utils')
 
 module.exports = {
 

@@ -1,0 +1,22 @@
+{
+  "name": "cccf-scheduler",
+  "version": "1.0.0",
+  "description": "A scheduler for [cccf](https://github.com/asbjornenge/cccf).",
+  "main": "scheduler-mapper.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asbjornenge/cccf-scheduler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asbjornenge/cccf-scheduler/issues"
+  },
+  "homepage": "https://github.com/asbjornenge/cccf-scheduler#readme"
+}
