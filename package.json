@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava --watch"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/asbjornenge/cccf-scheduler/issues"
   },
-  "homepage": "https://github.com/asbjornenge/cccf-scheduler#readme"
+  "homepage": "https://github.com/asbjornenge/cccf-scheduler#readme",
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "chokidar": "^1.4.3"
+  },
+  "dependencies": {
+    "cccf": "^3.2.1",
+    "clone": "^1.0.2",
+    "cccf-diff": "^3.0.2",
+    "lodash.omit": "^4.1.0",
+    "cccf-scale": "^2.0.0"
+  }
 }
