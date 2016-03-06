@@ -25,18 +25,24 @@ var utils = {
     },
 
     leastBusyHost : function(runningContainers, hosts) {
-        console.log(hosts)
+        var _hosts = {}
+        hosts.forEach(h => {
+          _hosts[h.hostname] = h
+        })
+        var hostnames = hosts.map(h => h.hostname)
         var weights = runningContainers.reduce(function(map, container) {
-            if (!map[container.host]) map[container.host] = 1
-            else map[container.host] += 1
+            if (!map[container.host.hostname]) 
+              map[container.host.hostname] = 1
+            else 
+              map[container.host.hostname] += 1
             return map
         },{})
-        console.log(weights) // TODO: use hostname or uniqueify host?
-        return hosts.reduce(function(curr, next) {
-            var curr_weight = weights[curr.name] || 0
-            var next_weight = weights[next.name] || 0
+        var hostname = hostnames.reduce(function(curr, next) {
+            var curr_weight = weights[curr] || 0
+            var next_weight = weights[next] || 0
             return (next_weight > curr_weight) ? curr : next
-        }, hosts[0])
+        }, hostnames[0])
+        return _hosts[hostname]
     },
 }
 
