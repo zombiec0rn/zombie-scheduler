@@ -25,7 +25,7 @@ module.exports = {
 
         var postRunWithHosts = clone(keepWithHosts)
         var addWithHosts = diff.add.map(function(container) {
-            container.host = balancer(postRunWithHosts, hosts) // <- Balancing via leastBusyHost 
+            container.host = balancer(postRunWithHosts, hosts) // <- Balancing via balancer 
             postRunWithHosts = postRunWithHosts.concat(container)
             return container
         })

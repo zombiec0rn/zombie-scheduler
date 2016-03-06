@@ -18,7 +18,7 @@ function binpack(hosts, containers, current, opts) {
   opts = opts || {}
   var _diff = { add: unify(containers, opts), remove: [], keep: [] }
   if (current) _diff = diff(hosts, containers, current, opts)
-  // TODO: replace leastBusyHost with something else
+  // TODO: replace leastBusyHost with a proper binpacker 
   return mapper.assignHosts(hosts, current, _diff, utils.leastBusyHost)
 }
 
