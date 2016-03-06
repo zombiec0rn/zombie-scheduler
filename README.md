@@ -4,7 +4,6 @@ A scheduler for [cccf](https://github.com/asbjornenge/cccf).
 
 * WIP (work in progress)
 * Not ready for use.
-* Not yet published to npm. 
 
 ## Install
 
@@ -21,8 +20,8 @@ var withHosts = scheduler.spread(hosts, containers)
 
 ## API
 
-### spread
+#### `spread(hosts, wanted, current)`
 
-### binpack
+#### `binpack(hosts, wanted, current)`
 
 enjoy.
