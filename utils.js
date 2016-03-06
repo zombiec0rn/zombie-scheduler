@@ -25,11 +25,13 @@ var utils = {
     },
 
     leastBusyHost : function(runningContainers, hosts) {
+        console.log(hosts)
         var weights = runningContainers.reduce(function(map, container) {
             if (!map[container.host]) map[container.host] = 1
             else map[container.host] += 1
             return map
         },{})
+        console.log(weights) // TODO: use hostname or uniqueify host?
         return hosts.reduce(function(curr, next) {
             var curr_weight = weights[curr.name] || 0
             var next_weight = weights[next.name] || 0
