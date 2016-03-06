@@ -4,7 +4,6 @@ var clone   = require('clone')
 var mapper  = require('./mapper')
 var utils   = require('./utils')
 
-// TODO: mapper.assignHosts(hosts, current, diff, _binpack)
 // TODO: If !current return diff.add only ??
 
 function spread(hosts, containers, current, opts) {
