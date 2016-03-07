@@ -26,10 +26,10 @@ var utils = {
 
     leastBusyHost : function(runningContainers, hosts) {
         var _hosts = {}
-        hosts.forEach(h => {
+        hosts.forEach(function(h) {
           _hosts[h.hostname] = h
         })
-        var hostnames = hosts.map(h => h.hostname)
+        var hostnames = hosts.map(function(h) { return h.hostname })
         var weights = runningContainers.reduce(function(map, container) {
             if (!map[container.host.hostname]) 
               map[container.host.hostname] = 1
