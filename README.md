@@ -4,6 +4,10 @@ A scheduler for [cccf](https://github.com/asbjornenge/cccf).
 
 * WIP (work in progress)
 * Not ready for use.
+* Needs rewrite
+
+*The internals of this module is so ugly they looked out the window and got arrested for mooing* :cow:
+
 
 ## Install
 

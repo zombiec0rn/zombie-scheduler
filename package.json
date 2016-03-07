@@ -28,6 +28,7 @@
     "clone": "^1.0.2",
     "cccf-diff": "^3.0.2",
     "lodash.omit": "^4.1.0",
-    "cccf-scale": "^2.0.0"
+    "cccf-scale": "^2.0.0",
+    "bytes": "^2.3.0"
   }
 }
