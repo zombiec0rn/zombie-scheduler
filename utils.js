@@ -4,8 +4,6 @@ var omit  = require('lodash.omit')
 var find  = require('lodash.find')
 var bytes = require('bytes')
 
-// TODO: Test for all utils?
-
 function isObject(a) {
   return (!!a) && (a.constructor === Object)
 }

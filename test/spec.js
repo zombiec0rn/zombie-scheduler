@@ -4,6 +4,7 @@ import bytes     from 'bytes'
 import cccf      from 'cccf'
 import example   from 'cccf/example.json'
 import scheduler from '../index'
+import utils     from '../utils'
 
 let nodes = require('./nodes.json')
 
@@ -109,7 +110,7 @@ test('spread throws if cannot fit', t => {
 
 test('spread without current', t => {
   let services = cccf.random(5, {
-    memory : '100MB',
+    memory : '500MB',
     cpu: 500
   })
   let _nodes = Array.apply(null, {length: 2}).map((v,i) => {
@@ -122,3 +123,47 @@ test('spread without current', t => {
   t.true(spread.keep.length == 0)
   t.true(spread.remove.length == 0)
 })
+
+test('sortByMemoryAndCpu', t => {
+  let small = cccf.random(5, {
+    memory : '100MB',
+    cpu: 100
+  })
+  let medium = cccf.random(5, {
+    memory : '500MB',
+    cpu: 500
+  })
+  let large = cccf.random(5, {
+    memory : '1GB',
+    cpu: 1000
+  })
+  let largeCpu = cccf.random(5, {
+    memory : '500MB',
+    cpu: 2000
+  })
+  let all = [].concat(small, medium, large, largeCpu)
+  let unified = utils.unifyContainers(all) // memory -> bytes
+  let sorted = unified.sort(utils.sortByMemoryAndCpu)
+  t.true(sorted.length == 20)
+  sorted.slice(0,5).forEach(s => {
+    t.true(bytes(s.memory) == '1GB')
+    t.true(s.cpu == 1000)
+  })
+  sorted.slice(5,10).forEach(s => {
+    t.true(bytes(s.memory) == '500MB')
+    t.true(s.cpu == 2000)
+  })
+  sorted.slice(10,15).forEach(s => {
+    t.true(bytes(s.memory) == '500MB')
+    t.true(s.cpu == 500)
+  })
+  sorted.slice(15,20).forEach(s => {
+    t.true(bytes(s.memory) == '100MB')
+    t.true(s.cpu == 100)
+  })
+})
+
+// TODO: funcify scaleNodes - also mockNodes ?
+// TODO: Test opts.ignore ?
+// TODO: Test all utils ?
+// TODO: Check that hostify does not screw up unfied memory and cpu !!
