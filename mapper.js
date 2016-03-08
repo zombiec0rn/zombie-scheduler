@@ -27,14 +27,15 @@ module.exports = {
         })
 
         // Sort by memory usage (need to place large first)
+        // Soring by memory first, then cpu
+        // TODO: Add a test for this one! Move to utils ?
         diff.add.sort(function(a,b) {
-          if (a.memory < b.memory) {
-            return 1;
+          if (a.memory == b.memory) {
+            return (a.cpu < b.cpu) ? 1 : (a.cpu > b.cpu) ? -1 : 0
           }
-          if (a.memory > b.memory) {
-            return -1;
+          else {
+            return (a.memory < b.memory) ? 1 : -1
           }
-          return 0;
         })
 
         // Calculate available first
@@ -44,14 +45,22 @@ module.exports = {
               if (container.host.hostname == host.hostname) total += container.memory
               return total
             },0)
+            var usedCpu = containers.reduce(function(total, container) {
+              if (container.host.hostname == host.hostname) total += container.cpu
+              return total
+            },0)
             var availableMem = host.memory - usedMem
+            var availableCpu = host.cpus.reduce(function(speed, cpu) {
+              speed += cpu.speed
+              return speed
+            },0) - usedCpu
 //            console.log(host.hostname, 
 //              'avail', 
-//              bytes(availableMem), 
+//              availableCpu, 
 //              'next',
-//              bytes(next.memory),
-//              next.memory < availableMem)
-            return next.memory < availableMem
+//              next.cpu,
+//              next.cpu < availableCpu)
+            return (next.memory < availableMem && next.cpu < availableCpu)
           })
         }
 

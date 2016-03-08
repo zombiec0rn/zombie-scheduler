@@ -9,9 +9,14 @@ let nodes = require('./nodes.json')
 
 test('spread', t => {
   let current = cccf.random(5, { 
-    host: nodes[0]
+    host: nodes[0],
+    memory: '500MB',
+    cpu: 500
   })
-  let wanted = cccf.random(3)
+  let wanted = cccf.random(3, {
+    memory: '500MB',
+    cpu: 500
+  })
   wanted.push(clone(current[0]))
   wanted.push(clone(current[1]))
 
@@ -49,10 +54,10 @@ test('spread', t => {
     })
 })
 
-test.only('spread with mem and cpu', t => {
+test('spread with mem and cpu', t => {
   let small = cccf.random(70, {
     memory : '100MB',
-    cpu: 50
+    cpu: 100
   })
   let medium = cccf.random(30, {
     memory : '500MB',
@@ -60,7 +65,7 @@ test.only('spread with mem and cpu', t => {
   })
   let large = cccf.random(10, {
     memory : '1GB',
-    cpu: 2000
+    cpu: 1000
   })
   let scaledNodes = Array.apply(null, {length: 20}).map((v,i) => {
     let base = clone(nodes[1])
@@ -81,11 +86,15 @@ test.only('spread with mem and cpu', t => {
     let origHost = scaledNodes.filter(node => node.hostname == hostname)[0]
     let loadedHost = hostsWithLoad[hostname]
 //    console.log(hostname, bytes(origHost.memory), bytes(loadedHost.memory))
+//    console.log(hostname, origHost.cpus.reduce((speed, cpu) => {
+//      speed += cpu.speed
+//      return speed
+//    },0), loadedHost.cpu)
     t.true(origHost.memory > loadedHost.memory)
   })
 })
 
-test.only('spread throws if cannot fit', t => {
+test('spread throws if cannot fit', t => {
   let large = cccf.random(10, {
     memory : '1GB',
     cpu: 2000
