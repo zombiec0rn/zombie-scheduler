@@ -2,7 +2,7 @@
   "name": "cccf-scheduler",
   "version": "1.0.1",
   "description": "A scheduler for cccf.",
-  "main": "scheduler-mapper.js",
+  "main": "index.js",
   "directories": {
     "test": "test"
   },
@@ -29,6 +29,7 @@
     "cccf-diff": "^3.0.2",
     "lodash.omit": "^4.1.0",
     "cccf-scale": "^2.0.0",
-    "bytes": "^2.3.0"
+    "bytes": "^2.3.0",
+    "lodash.find": "^4.2.0"
   }
 }

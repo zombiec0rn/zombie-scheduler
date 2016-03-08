@@ -1,49 +1,59 @@
-var cccf = require('cccf')
+var cccf  = require('cccf')
+var scale = require('cccf-scale')
+var omit  = require('lodash.omit')
+var find  = require('lodash.find')
+var bytes = require('bytes')
 
-var utils = {
+// TODO: Test for all utils?
 
-    validateContainer : function(container) {
-        try      { cccf.validate(container); return true }
-        catch(e) { process.stderr.write(e); return false }
-    },
-
-    pickHostByName : function(name, hosts) {
-        return hosts.filter(function(host) {
-            return host.name == name
-        })[0]
-    },
-
-    stringifyHost : function(host) {
-        var protocol = host.protocol || 'tcp'
-        return protocol+'://'+host.host+':'+host.port
-    },
-
-    pickContainerById : function(id, current_containers) {
-        return current_containers.filter(function(c) {
-            return c.id == id
-        })[0]
-    },
-
-    leastBusyHost : function(runningContainers, hosts) {
-        var _hosts = {}
-        hosts.forEach(function(h) {
-          _hosts[h.hostname] = h
-        })
-        var hostnames = hosts.map(function(h) { return h.hostname })
-        var weights = runningContainers.reduce(function(map, container) {
-            if (!map[container.host.hostname]) 
-              map[container.host.hostname] = 1
-            else 
-              map[container.host.hostname] += 1
-            return map
-        },{})
-        var hostname = hostnames.reduce(function(curr, next) {
-            var curr_weight = weights[curr] || 0
-            var next_weight = weights[next] || 0
-            return (next_weight > curr_weight) ? curr : next
-        }, hostnames[0])
-        return _hosts[hostname]
-    },
+function isObject(a) {
+  return (!!a) && (a.constructor === Object)
+}
+function isArray(a) {
+  return (!!a) && (a.constructor === Array)
+}
+function validateContainer(container) {
+  try      { cccf.validate(container); return true }
+  catch(e) { process.stderr.write(e); return false }
+}
+function hostifyDiff(current, diff) {
+  diff.keep = diff.keep.map(function(keep) { 
+    keep.host = find(current, ['id', keep.id]).host
+    return keep
+  })
+  diff.remove = diff.remove.map(function(remove) { 
+    remove.host = find(current, ['id', remove.id]).host
+    return remove
+  })
+  return diff
+}
+function unifyContainers(containers, ignore) {
+  if (ignore) containers = containers.filter(function(c) { return ignore.indexOf(c.id) })
+  containers = containers.filter(validateContainer)
+  containers = scale.up(containers)
+  containers = containers.map(function(container) {
+    var c = omit(container, ['host','scale'])
+    if (c.image.indexOf(':') < 0) c.image = c.image+':latest'
+    // TODO: Validate memory and cpu !! VERY IMPORTANT !!
+    if (c.memory) c.memory = bytes(c.memory)
+    return c
+  })
+  return containers
+}
+// TODO: Add test for sortByMemoryAndCpu
+function sortByMemoryAndCpu(a,b) {
+  if (a.memory == b.memory) {
+    return (a.cpu < b.cpu) ? 1 : (a.cpu > b.cpu) ? -1 : 0
+  }
+  else {
+    return (a.memory < b.memory) ? 1 : -1
+  }
 }
 
-module.exports = utils 
+module.exports = {
+  isArray: isArray,
+  isObject: isObject,
+  hostifyDiff: hostifyDiff,
+  unifyContainers: unifyContainers,
+  sortByMemoryAndCpu: sortByMemoryAndCpu
+}

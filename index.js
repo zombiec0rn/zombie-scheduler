@@ -1,37 +1,31 @@
-var cccf    = require('cccf')
-var cdiff   = require('cccf-diff')
-var clone   = require('clone')
-var mapper  = require('./mapper')
-var utils   = require('./utils')
+var cdiff  = require('cccf-diff')
+var spread = require('./spread')
+var utils  = require('./utils')
 
-// TODO: If !current return diff.add only ??
-
-function spread(hosts, containers, current, opts) {
+function spreadem(nodes, wanted, current, opts) {
   opts = opts || {}
-  var _diff = { add: unify(containers, opts), remove: [], keep: [] }
-  if (current) _diff = diff(hosts, containers, current, opts)
-  return mapper.assignHosts(hosts, current, _diff, utils.leastBusyHost)
+  current = current || []
+  if (utils.isObject(current)) { opts = current; current = [] }
+  var diff = diffy(nodes, wanted, current, opts)
+  return spread(nodes, current, diff)
 }
 
-function binpack(hosts, containers, current, opts) {
-  opts = opts || {}
-  var _diff = { add: unify(containers, opts), remove: [], keep: [] }
-  if (current) _diff = diff(hosts, containers, current, opts)
-  // TODO: replace leastBusyHost with a proper binpacker 
-  return mapper.assignHosts(hosts, current, _diff, utils.leastBusyHost)
+function binpackem(hosts, containers, current, opts) {
+  throw new Error('Implementation missing. Sry...')
 }
 
 function unify(containers, opts) {
-  return mapper.unifyContainers(clone(containers), opts.ignore)
+  return utils.unifyContainers(containers, opts.ignore)
 }
 
-function diff(hosts, containers, current, opts) {
+function diffy(hosts, containers, current, opts) {
   var unified_current = unify(current, opts)
   var unified_containers = unify(containers, opts)
-  return cdiff(unified_current, unified_containers)
+  var unified_diff = cdiff(unified_current, unified_containers)
+  return utils.hostifyDiff(current, unified_diff)
 }
 
 module.exports = {
-  spread: spread,
-  binpack: binpack
-} 
+  spread: spreadem,
+  binpack: binpackem
+}
