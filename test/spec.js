@@ -7,6 +7,13 @@ import scheduler from '../index'
 import utils     from '../utils'
 
 let nodes = require('./nodes.json')
+function scaleNodes(num) {
+  return Array.apply(null, {length: num}).map((v,i) => {
+    let base = clone(nodes[1])
+    base.hostname = 'asbjornenge-node-'+i
+    return base
+  })
+}
 
 test('spread', t => {
   let current = cccf.random(5, { 
@@ -68,11 +75,7 @@ test('spread with mem and cpu', t => {
     memory : '1GB',
     cpu: 1000
   })
-  let scaledNodes = Array.apply(null, {length: 20}).map((v,i) => {
-    let base = clone(nodes[1])
-    base.hostname = 'asbjornenge-node-'+i
-    return base
-  })
+  let scaledNodes = scaleNodes(20)
   let spread = scheduler.spread(scaledNodes, small.concat(medium, large))
   let hostsWithLoad = spread.add.reduce((coll, curr) => {
     if (!coll[curr.host.hostname]) coll[curr.host.hostname] = {
@@ -95,11 +98,7 @@ test('spread throws if cannot fit', t => {
     memory : '1GB',
     cpu: 2000
   })
-  let scaledNodes = Array.apply(null, {length: 2}).map((v,i) => {
-    let base = clone(nodes[1])
-    base.hostname = 'asbjornenge-node-'+i
-    return base
-  })
+  let scaledNodes = scaleNodes(2)
   try {
     let spread = scheduler.spread(scaledNodes, large)
     t.true(false)
@@ -113,12 +112,8 @@ test('spread without current', t => {
     memory : '500MB',
     cpu: 500
   })
-  let _nodes = Array.apply(null, {length: 2}).map((v,i) => {
-    let base = clone(nodes[1])
-    base.hostname = 'asbjornenge-node-'+i
-    return base
-  })
-  let spread = scheduler.spread(_nodes, services)
+  let scaledNodes = scaleNodes(2)
+  let spread = scheduler.spread(scaledNodes, services)
   t.true(spread.add.length == 5)
   t.true(spread.keep.length == 0)
   t.true(spread.remove.length == 0)
@@ -163,7 +158,6 @@ test('sortByMemoryAndCpu', t => {
   })
 })
 
-// TODO: funcify scaleNodes - also mockNodes ?
 // TODO: Test opts.ignore ?
 // TODO: Test all utils ?
 // TODO: Check that hostify does not screw up unfied memory and cpu !!
