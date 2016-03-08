@@ -19,7 +19,12 @@ npm install --save cccf-scheduler
 
 ```js
 var scheduler = require('cccf-scheduler')
-var withHosts = scheduler.spread(hosts, containers)
+var spread = scheduler.spread(hosts, containers)
+// => {
+//  add: [...],
+//  keep: [...],
+//  remove: [...]
+// }
 ```
 
 ## API
