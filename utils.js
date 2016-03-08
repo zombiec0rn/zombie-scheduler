@@ -26,7 +26,8 @@ function hostifyDiff(current, diff) {
   return diff
 }
 function unifyContainers(containers, ignore) {
-  if (ignore) containers = containers.filter(function(c) { return ignore.indexOf(c.id) })
+  if (ignore) containers = containers
+    .filter(function(c) { return ignore.indexOf(c.id) < 0 })
   containers = containers.filter(validateContainer)
   containers = scale.up(containers)
   containers = containers.map(function(container) {

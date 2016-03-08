@@ -158,6 +158,24 @@ test('sortByMemoryAndCpu', t => {
   })
 })
 
-// TODO: Test opts.ignore ?
+test('can ignore service ids', t => {
+  let good = cccf.random(2, {
+    memory: '10M',
+    cpu: 10,
+    tag: 'yolo'
+  })
+  let ignored = cccf.random(2, {
+    memory: '10M',
+    cpu: 10
+  })
+  var scaledNodes = scaleNodes(2)
+  var spread = scheduler.spread(scaledNodes, [].concat(good, ignored), {
+    ignore: ignored.map(i => i.id) 
+  })
+  t.true(spread.add.length == 2) 
+  let goodIds = good.map(g => g.id)
+  let addIds = spread.add.map(a => a.id)
+  addIds.forEach(a => t.true(goodIds.indexOf(a) >= 0))
+})
+
 // TODO: Test all utils ?
-// TODO: Check that hostify does not screw up unfied memory and cpu !!
