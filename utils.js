@@ -34,6 +34,8 @@ function unifyContainers(containers, ignore) {
     var c = omit(container, ['host','scale'])
     if (c.image.indexOf(':') < 0) c.image = c.image+':latest'
     // TODO: Validate memory and cpu !! VERY IMPORTANT !!
+    // Implement in zombie-node and add validateNode similar to
+    // validateContainer above
     if (c.memory) c.memory = bytes(c.memory)
     return c
   })
