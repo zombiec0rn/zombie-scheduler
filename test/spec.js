@@ -85,11 +85,6 @@ test('spread with mem and cpu', t => {
   Object.keys(hostsWithLoad).forEach(hostname => {
     let origHost = scaledNodes.filter(node => node.hostname == hostname)[0]
     let loadedHost = hostsWithLoad[hostname]
-//    console.log(hostname, bytes(origHost.memory), bytes(loadedHost.memory))
-//    console.log(hostname, origHost.cpus.reduce((speed, cpu) => {
-//      speed += cpu.speed
-//      return speed
-//    },0), loadedHost.cpu)
     t.true(origHost.memory > loadedHost.memory)
   })
 })
@@ -110,4 +105,20 @@ test('spread throws if cannot fit', t => {
   } catch(e) {
     t.true(true)
   }
+})
+
+test('spread without current', t => {
+  let services = cccf.random(5, {
+    memory : '100MB',
+    cpu: 500
+  })
+  let _nodes = Array.apply(null, {length: 2}).map((v,i) => {
+    let base = clone(nodes[1])
+    base.hostname = 'asbjornenge-node-'+i
+    return base
+  })
+  let spread = scheduler.spread(_nodes, services)
+  t.true(spread.add.length == 5)
+  t.true(spread.keep.length == 0)
+  t.true(spread.remove.length == 0)
 })
