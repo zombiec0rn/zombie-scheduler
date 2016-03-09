@@ -27,4 +27,14 @@ require('cccf-scheduler').spread(nodes, services)
 
 #### `binpack(hosts, wanted, current)`
 
+## Changelog
+
+### 2.0.0
+
+* Improved everything - no it actually works :rocket:
+
+### 1.0.0
+
+* Initial release :tada:
+
 enjoy.
