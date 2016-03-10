@@ -1,4 +1,4 @@
-var cdiff  = require('cccf-diff')
+var cdiff  = require('@zombiec0rn/zombie-service-diff')
 var spread = require('./spread')
 var utils  = require('./utils')
 

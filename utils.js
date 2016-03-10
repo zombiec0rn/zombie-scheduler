@@ -1,6 +1,6 @@
 var zsf   = require('@zombiec0rn/zombie-service-format')
 var znf   = require('@zombiec0rn/zombie-node-format')
-var scale = require('cccf-scale')
+var scale = require('@zombiec0rn/zombie-service-scale')
 var omit  = require('lodash.omit')
 var find  = require('lodash.find')
 var bytes = require('bytes')

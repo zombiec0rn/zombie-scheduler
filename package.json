@@ -24,13 +24,13 @@
     "chokidar": "^1.4.3"
   },
   "dependencies": {
-    "@zombiec0rn/zombie-service-format": "^1.0.0",
     "@zombiec0rn/zombie-node-format": "^1.0.0",
-    "clone": "^1.0.2",
-    "cccf-diff": "^3.0.2",
-    "lodash.omit": "^4.1.0",
-    "cccf-scale": "^2.0.0",
+    "@zombiec0rn/zombie-service-diff": "^1.0.0",
+    "@zombiec0rn/zombie-service-format": "^1.0.0",
+    "@zombiec0rn/zombie-service-scale": "^1.0.0",
     "bytes": "^2.3.0",
-    "lodash.find": "^4.2.0"
+    "clone": "^1.0.2",
+    "lodash.find": "^4.2.0",
+    "lodash.omit": "^4.1.0"
   }
 }
