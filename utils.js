@@ -1,4 +1,4 @@
-var cccf  = require('cccf')
+var zsf   = require('@zombiec0rn/zombie-service-format')
 var scale = require('cccf-scale')
 var omit  = require('lodash.omit')
 var find  = require('lodash.find')
@@ -11,7 +11,7 @@ function isArray(a) {
   return (!!a) && (a.constructor === Array)
 }
 function validateContainer(container) {
-  try      { cccf.validate(container); return true }
+  try      { zsf.validate(container); return true }
   catch(e) { process.stderr.write(e); return false }
 }
 function hostifyDiff(current, diff) {

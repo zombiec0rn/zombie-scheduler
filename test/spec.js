@@ -1,8 +1,7 @@
 import test      from 'ava'
 import clone     from 'clone'
 import bytes     from 'bytes'
-import cccf      from 'cccf'
-import example   from 'cccf/example.json'
+import zsf       from '@zombiec0rn/zombie-service-format'
 import scheduler from '../index'
 import utils     from '../utils'
 
@@ -16,12 +15,12 @@ function scaleNodes(num) {
 }
 
 test('spread', t => {
-  let current = cccf.random(5, { 
+  let current = zsf.random(5, { 
     host: nodes[0],
     memory: '500MB',
     cpu: 500
   })
-  let wanted = cccf.random(3, {
+  let wanted = zsf.random(3, {
     memory: '500MB',
     cpu: 500
   })
@@ -63,15 +62,15 @@ test('spread', t => {
 })
 
 test('spread with mem and cpu', t => {
-  let small = cccf.random(70, {
+  let small = zsf.random(70, {
     memory : '100MB',
     cpu: 100
   })
-  let medium = cccf.random(30, {
+  let medium = zsf.random(30, {
     memory : '500MB',
     cpu: 500
   })
-  let large = cccf.random(10, {
+  let large = zsf.random(10, {
     memory : '1GB',
     cpu: 1000
   })
@@ -94,7 +93,7 @@ test('spread with mem and cpu', t => {
 })
 
 test('spread throws if cannot fit', t => {
-  let large = cccf.random(10, {
+  let large = zsf.random(10, {
     memory : '1GB',
     cpu: 2000
   })
@@ -108,7 +107,7 @@ test('spread throws if cannot fit', t => {
 })
 
 test('spread without current', t => {
-  let services = cccf.random(5, {
+  let services = zsf.random(5, {
     memory : '500MB',
     cpu: 500
   })
@@ -120,19 +119,19 @@ test('spread without current', t => {
 })
 
 test('sortByMemoryAndCpu', t => {
-  let small = cccf.random(5, {
+  let small = zsf.random(5, {
     memory : '100MB',
     cpu: 100
   })
-  let medium = cccf.random(5, {
+  let medium = zsf.random(5, {
     memory : '500MB',
     cpu: 500
   })
-  let large = cccf.random(5, {
+  let large = zsf.random(5, {
     memory : '1GB',
     cpu: 1000
   })
-  let largeCpu = cccf.random(5, {
+  let largeCpu = zsf.random(5, {
     memory : '500MB',
     cpu: 2000
   })
@@ -159,12 +158,12 @@ test('sortByMemoryAndCpu', t => {
 })
 
 test('can ignore service ids', t => {
-  let good = cccf.random(2, {
+  let good = zsf.random(2, {
     memory: '10M',
     cpu: 10,
     tag: 'yolo'
   })
-  let ignored = cccf.random(2, {
+  let ignored = zsf.random(2, {
     memory: '10M',
     cpu: 10
   })
