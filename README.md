@@ -1,4 +1,4 @@
-# zombie-scheduler
+# Zombie Scheduler 
 
 A scheduler for [zombies]().
 
