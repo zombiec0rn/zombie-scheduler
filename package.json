@@ -1,7 +1,7 @@
 {
-  "name": "cccf-scheduler",
-  "version": "2.0.0",
-  "description": "A scheduler for cccf.",
+  "name": "@zombiec0rn/zombie-scheduler",
+  "version": "1.0.0",
+  "description": "Zombie scheduler.",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -11,20 +11,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/asbjornenge/cccf-scheduler.git"
+    "url": "git+https://github.com/zombiec0rn/zombie-scheduler.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/asbjornenge/cccf-scheduler/issues"
+    "url": "https://github.com/zombiec0rn/zombie-scheduler/issues"
   },
-  "homepage": "https://github.com/asbjornenge/cccf-scheduler#readme",
+  "homepage": "https://github.com/zombiec0rn/zombie-scheduler#readme",
   "devDependencies": {
     "ava": "^0.12.0",
     "chokidar": "^1.4.3"
   },
   "dependencies": {
-    "cccf": "^3.3.0",
+    "@zombiec0rn/zombie-service-format": "^1.0.0",
+    "@zombiec0rn/zombie-node-format": "^1.0.0",
     "clone": "^1.0.2",
     "cccf-diff": "^3.0.2",
     "lodash.omit": "^4.1.0",
