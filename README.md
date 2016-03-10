@@ -1,19 +1,17 @@
-# cccf-scheduler
+# zombie-scheduler
 
-A scheduler for [cccf](https://github.com/asbjornenge/cccf).
-
-* WIP (work in progress)
+A scheduler for [zombies]().
 
 ## Install
 
 ```sh
-npm install --save cccf-scheduler
+npm install --save @zombiec0rn/zombie-scheduler
 ```
 
 ## Use
 
 ```js
-require('cccf-scheduler').spread(nodes, services)
+require('@zombiec0rn/zombie-scheduler').spread(znodes, zservices)
 // => {
 //  add: [...],
 //  keep: [...],
@@ -23,15 +21,15 @@ require('cccf-scheduler').spread(nodes, services)
 
 ## API
 
-#### `spread(hosts, wanted, current)`
+#### `spread(nodes, wanted, current, opts)`
 
-#### `binpack(hosts, wanted, current)`
+Spread will spread out your services as much as possible - new services go on least busy node. 
+
+#### `binpack(nodes, wanted, current, opts)`
+
+WIP
 
 ## Changelog
-
-### 2.0.0
-
-* Improved everything - no it actually works :rocket:
 
 ### 1.0.0
 
