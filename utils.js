@@ -1,4 +1,5 @@
 var zsf   = require('@zombiec0rn/zombie-service-format')
+var znf   = require('@zombiec0rn/zombie-node-format')
 var scale = require('cccf-scale')
 var omit  = require('lodash.omit')
 var find  = require('lodash.find')
@@ -11,8 +12,12 @@ function isArray(a) {
   return (!!a) && (a.constructor === Array)
 }
 function validateContainer(container) {
-  try      { zsf.validate(container); return true }
-  catch(e) { process.stderr.write(e); return false }
+  try      { zsf.validate(container); return container }
+  catch(e) { throw e }
+}
+function validateNode(node) {
+  try      { znf.validate(node); return node }
+  catch(e) { throw e }
 }
 function hostifyDiff(current, diff) {
   diff.keep = diff.keep.map(function(keep) { 
@@ -55,6 +60,7 @@ module.exports = {
   isArray: isArray,
   isObject: isObject,
   hostifyDiff: hostifyDiff,
+  validateNode: validateNode,
   unifyContainers: unifyContainers,
   sortByMemoryAndCpu: sortByMemoryAndCpu
 }

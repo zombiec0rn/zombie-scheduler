@@ -2,19 +2,25 @@ import test      from 'ava'
 import clone     from 'clone'
 import bytes     from 'bytes'
 import zsf       from '@zombiec0rn/zombie-service-format'
+import znf       from '@zombiec0rn/zombie-node-format'
 import scheduler from '../index'
 import utils     from '../utils'
 
-let nodes = require('./nodes.json')
-function scaleNodes(num) {
-  return Array.apply(null, {length: num}).map((v,i) => {
-    let base = clone(nodes[1])
-    base.hostname = 'asbjornenge-node-'+i
-    return base
+// NOTE: In order to valiate tests I need to control mem & cpus
+function makeNodes(num) {
+  return znf.random(num, {
+    memory: 1779699712,
+    cpus: [
+      {
+        "model": "Intel(R) Xeon(R) CPU @ 2.60GHz",
+        "speed": 2599,
+      }
+    ]
   })
 }
 
 test('spread', t => {
+  let nodes = makeNodes(2)
   let current = zsf.random(5, { 
     host: nodes[0],
     memory: '500MB',
@@ -74,7 +80,7 @@ test('spread with mem and cpu', t => {
     memory : '1GB',
     cpu: 1000
   })
-  let scaledNodes = scaleNodes(20)
+  let scaledNodes = makeNodes(20)
   let spread = scheduler.spread(scaledNodes, small.concat(medium, large))
   let hostsWithLoad = spread.add.reduce((coll, curr) => {
     if (!coll[curr.host.hostname]) coll[curr.host.hostname] = {
@@ -97,7 +103,7 @@ test('spread throws if cannot fit', t => {
     memory : '1GB',
     cpu: 2000
   })
-  let scaledNodes = scaleNodes(2)
+  let scaledNodes = makeNodes(2)
   try {
     let spread = scheduler.spread(scaledNodes, large)
     t.true(false)
@@ -111,7 +117,7 @@ test('spread without current', t => {
     memory : '500MB',
     cpu: 500
   })
-  let scaledNodes = scaleNodes(2)
+  let scaledNodes = makeNodes(2)
   let spread = scheduler.spread(scaledNodes, services)
   t.true(spread.add.length == 5)
   t.true(spread.keep.length == 0)
@@ -167,7 +173,7 @@ test('can ignore service ids', t => {
     memory: '10M',
     cpu: 10
   })
-  var scaledNodes = scaleNodes(2)
+  var scaledNodes = makeNodes(2)
   var spread = scheduler.spread(scaledNodes, [].concat(good, ignored), {
     ignore: ignored.map(i => i.id) 
   })
@@ -177,4 +183,26 @@ test('can ignore service ids', t => {
   addIds.forEach(a => t.true(goodIds.indexOf(a) >= 0))
 })
 
-// TODO: Test all utils ?
+test('will throw if buggy node config', t => {
+  let nodes = makeNodes(2)
+  let services = zsf.random(2)
+  nodes.forEach(n => delete n.memory)
+  try {
+    let spread = scheduler.spread(nodes, services)
+    t.true(false)
+  } catch(e) {
+    t.true(e instanceof znf.exception)
+  } 
+})
+
+test('will throw if buggy service config', t => {
+  let nodes = makeNodes(2)
+  let services = zsf.random(2)
+  services.forEach(s => delete s.id)
+  try {
+    let spread = scheduler.spread(nodes, services)
+    t.true(false)
+  } catch(e) {
+    t.true(e instanceof zsf.exception)
+  } 
+})
