@@ -19,6 +19,10 @@
     "url": "https://github.com/zombiec0rn/zombie-scheduler/issues"
   },
   "homepage": "https://github.com/zombiec0rn/zombie-scheduler#readme",
+  "keywords": [
+    "zombie-scheduler",
+    "zombiec0rn"
+  ],
   "devDependencies": {
     "ava": "^0.12.0",
     "chokidar": "^1.4.3"
