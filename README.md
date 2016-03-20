@@ -31,6 +31,10 @@ WIP
 
 ## Changelog
 
+### 2.0.0
+
+* Bumped zombie-service-diff to next major with `fingerprint` support
+
 ### 1.0.0
 
 * Initial release :tada:
