@@ -1,4 +1,4 @@
-var cdiff  = require('@zombiec0rn/zombie-service-diff')
+var zdiff  = require('@zombiec0rn/zombie-service-diff')
 var spread = require('./spread')
 var utils  = require('./utils')
 
@@ -22,7 +22,7 @@ function diffy(nodes, containers, current, opts) {
   utils.validateNode(nodes)
   var unified_current = unify(current, opts)
   var unified_containers = unify(containers, opts)
-  var unified_diff = cdiff(unified_current, unified_containers)
+  var unified_diff = zdiff(unified_current, unified_containers)
   return utils.hostifyDiff(current, unified_diff)
 }
 
