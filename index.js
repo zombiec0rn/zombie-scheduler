@@ -15,6 +15,7 @@ function binpackem(nodes, containers, current, opts) {
 }
 
 function unify(containers, opts) {
+  opts = opts || {}
   return utils.unifyContainers(containers, opts.ignore)
 }
 
@@ -28,5 +29,6 @@ function diffy(nodes, containers, current, opts) {
 
 module.exports = {
   spread: spreadem,
-  binpack: binpackem
+  binpack: binpackem,
+  unify: unify
 }
