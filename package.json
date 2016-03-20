@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@zombiec0rn/zombie-node-format": "^1.0.0",
-    "@zombiec0rn/zombie-service-diff": "^1.0.0",
+    "@zombiec0rn/zombie-service-diff": "^2.0.0",
     "@zombiec0rn/zombie-service-format": "^1.0.0",
     "@zombiec0rn/zombie-service-scale": "^1.0.0",
     "bytes": "^2.3.0",
