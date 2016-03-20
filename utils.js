@@ -38,15 +38,11 @@ function unifyContainers(containers, ignore) {
   containers = containers.map(function(container) {
     var c = omit(container, ['host','scale'])
     if (c.image.indexOf(':') < 0) c.image = c.image+':latest'
-    // TODO: Validate memory and cpu !! VERY IMPORTANT !!
-    // Implement in zombie-node and add validateNode similar to
-    // validateContainer above
     if (c.memory) c.memory = bytes(c.memory)
     return c
   })
   return containers
 }
-// TODO: Add test for sortByMemoryAndCpu
 function sortByMemoryAndCpu(a,b) {
   if (a.memory == b.memory) {
     return (a.cpu < b.cpu) ? 1 : (a.cpu > b.cpu) ? -1 : 0
